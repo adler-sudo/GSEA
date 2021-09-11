@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, message=FALSE}
-knitr::opts_chunk$set(echo = TRUE, results='hide')
+knitr::opts_chunk$set(echo = TRUE, results='hide', message=FALSE)
 ```
 
 # 1. Packages and files
@@ -97,16 +97,16 @@ head(pouch_test.greater.01)
 
 * Neuroactive ligand-receptor interaction
 
-* Neuroactive ligand-receptor interaction
+* Calcium signaling pathway
 
 * Complement and coagulation cascades 
 
 
 **Which two of these are related to the immune system?**
 
-* Neuroactive ligand-receptor interaction
+* Cytokine-cytokine receptor interaction
 
-* Neuroactive ligand-receptor interaction
+* Complement and coagulation cascades 
 
 # 3. Visualize pregnancy fold change magnitudes for all genes in the "coagaulation and complement" KEGG pathway
 
@@ -126,7 +126,7 @@ pathview(gene.data=pouch_foldchanges,
          high = list(gene = "red", cpd = "yellow"), na.col = "transparent")
 ```
 
-**What does the plot tell you about components of this pathway and male pregnancy?** The plot provides us with a visualization of the components of this pathway, the effect that they have on each other, and the final product or action from the pathway. The colored rectangles represent genes in our analysis of male pregnancy, colored according to the magnitude of the log2 fold change observed in our study.
+**What does the plot tell you about components of this pathway and male pregnancy?** The plot provides us with a visualization of the components of this pathway that are differentially expressed during male pregnancy, colored according to the magnitude of the log2 fold change observed in our study.
 
 # 4. Visualize multi-genic expression patterns in pregnant and non-pregnant pouch tissues using non-metric multidimensional scaling.
 
@@ -155,7 +155,7 @@ stressplot(pipe.mds0,pipe.dis)
 
 ```
 
-**What do you think is meant by "convergence"?** 
+**What do you think is meant by "convergence"?** Convergence is reaching agreement on the separation of points based on the distances related to many all other points within the matrix.
 
 ```{r}
 
@@ -357,6 +357,7 @@ compcoag.d1 = dist(
   upper=FALSE
 )
 
+
 max(round(compcoag.d1,3))
 round(compcoag.d1,3)
 
@@ -392,7 +393,7 @@ plot(compcoag.c2)
 
 **What does the sample dendrogram tell us about pregnant (P) and non-pregnant (NP) pouch transcriptomes?** The sample dendrogram displays pregnant (P) and non-pregnant (NP) samples form two separate clusters. 
 
-```{r}
+```{r warning=FALSE}
 
 # print order of samples in the tree
 compcoag.c1$order
@@ -415,9 +416,9 @@ heatmap.2(
   col=compcoag_pal,
   cexRow=0.5,
   cexCol=0.75,
-  margins=c(3,13),
+  margins=c(3,10),
   lwid=c(0.8,3),
-  lhei=c(0.8,3),
+  # lhei=c(0.8,3),
   srtCol=45,
   adjCol=c(1,1),
   keysize=1.3
@@ -425,7 +426,7 @@ heatmap.2(
 
 ```
 
-**Are there any groups of genes that differentiate between pregnant and non-pregnant males particularly well? If so, name those genes?** The top quarter(ish) of the plot appears to cluster fairly consistently between the two groups. These genes include the top branch at the point the there are 5 branches. These genes include complement component 6,kininogen, coagulation factor V, coagulation factor III, C5a anaphylatoxin chemotactic receptor, thrombomodulin,clusterin, fibinogen gamma chain, decay accelerating factor, and compound factor D.
+**Are there any groups of genes that differentiate between pregnant and non-pregnant males particularly well? If so, name those genes?** The top quarter(ish) of the plot appears to cluster fairly consistently between the two groups. These genes include the top branch at the point that there are 5 branches on the left side of the heatmap. These genes include complement component 6, kininogen, coagulation factor V (labile factor), coagulation factor III (tissue factor), C5a anaphylatoxin chemotactic receptor, thrombomodulin, clusterin, fibinogen gamma chain, decay accelerating factor, and component factor D.
 
 
 ```{r repeat of above without scale() function}
@@ -491,9 +492,9 @@ heatmap.2(
   col=compcoag_pal,
   cexRow=0.5,
   cexCol=0.75,
-  margins=c(3,13),
+  margins=c(3,10),
   lwid=c(0.8,3),
-  lhei=c(0.8,3),
+  # lhei=c(0.8,3),
   srtCol=45,
   adjCol=c(1,1),
   keysize=1.3
@@ -502,7 +503,7 @@ heatmap.2(
 
 ```
 
-**Does your heatmap look any different? If so, explain why this might be.** Yes, the heatmap and dendrogram are very different. The NP and P samples are no longer clustered together. The range of values in the heatmap is much narrower. This is likely a result of major skew in the original data. 
+**Does your heatmap look any different? If so, explain why this might be.** Yes, the heatmap and dendrogram are very different. The NP and P samples are no longer clustered together. The range of values in the heatmap is much narrower. This is likely a result of major skew in the original data. The scale() function gets rid of tails that exist in the distribution.
 
 # 7. Construct heatmaps with clustering dendrograms for stickleback gene espression data
 
@@ -596,23 +597,22 @@ compcoag_pal = colorRampPalette(
 # plot the heatmap
 heatmap.2(
   stick_TMMvals.groupxix.6.12.tn,
-  Colv=rotate(as.dendrogram(compcoag.c1),order=c(12,11,10,9,8,7,6,5,4,3,2,1)),
-  Rowv=as.dendrogram(compcoag.c2),
+  # Colv=rotate(as.dendrogram(compcoag.c1),order=c(12,11,10,9,8,7,6,5,4,3,2,1)),
+  # Rowv=as.dendrogram(compcoag.c2),
   # labRow=names_compcoag,
   density.info="none",
   trace="none",
   scale="none",
   col=compcoag_pal,
-  cexRow=0.5,
-  cexCol=0.75,
-  margins=c(3,13),
+  cexRow=0.15,
+  cexCol=0.25,
+  margins=c(3,6),
   lwid=c(0.8,3),
-  lhei=c(0.8,3),
+  # lhei=c(0.8,3),
   srtCol=45,
   adjCol=c(1,1),
   keysize=1.3
 )
-
 ```
 
 
@@ -620,11 +620,11 @@ heatmap.2(
 
 ```{r warning=FALSE}
 
-# subset to groupXIX and between 6000000-12000000 gene start position=
-stick_TMMvals.random = stick_TMMvals[sample(nrow(stick_TMMvals),length(names_compcoag)),]
+# subsample random set of genes (equal to the number of genes in first map)
+stick_TMMvals.random = stick_TMMvals[sample(rownames(stick_TMMvals),nrow(stick_TMMvals.groupxix.6.12)),]
 
 # reduce pouch_compcoag to CPM values 
-stick_TMMvals.random = stick_TMMvals.random[,!names(stick_TMMvals.random) %in% c("Genome_Loc","Gene_Start_Pos")]
+stick_TMMvals.random = stick_TMMvals.random[,3:ncol(stick_TMMvals.random)]
 
 # log2 transform and add 0.01 to each value
 stick_TMMvals.random = log2(stick_TMMvals.random + 0.01)
@@ -683,19 +683,19 @@ compcoag_pal = colorRampPalette(
 
 # plot the heatmap
 heatmap.2(
-  stick_TMMvals.groupxix.6.12.tn,
-  Colv=rotate(as.dendrogram(compcoag.c1),order=c(12,11,10,9,8,7,6,5,4,3,2,1)),
-  Rowv=as.dendrogram(compcoag.c2),
-  labRow=names_compcoag,
+  stick_TMMvals.random,
+  # Colv=rotate(as.dendrogram(compcoag.c1),order=c(12,11,10,9,8,7,6,5,4,3,2,1)),
+  # Rowv=as.dendrogram(compcoag.c2),
+  # labRow=names_compcoag,
   density.info="none",
   trace="none",
   scale="none",
   col=compcoag_pal,
-  cexRow=0.5,
-  cexCol=0.75,
-  margins=c(3,13),
+  cexRow=0.15,
+  cexCol=0.25,
+  margins=c(3,6),
   lwid=c(0.8,3),
-  lhei=c(0.8,3),
+  # lhei=c(0.8,3),
   srtCol=45,
   adjCol=c(1,1),
   keysize=1.3
@@ -706,7 +706,7 @@ heatmap.2(
 
 ```
 
-
+**Do you notice anything different about the clustering patterns for males and females between the two subsets? Do a quick literature search to find out why we might expect a difference given the biology of stickleback chromosome 19, and interpret what may be going on, especially regarding the clusters of genes that yield different sex-specific expression patterns in the groupXIX heatmap.** In the non-random subset, the male vs. female samples clustered together in two separate groups by sex. The genes expressed in these two separate groups appear very similar to each other, also clustering according to sample sex. However, in the random subset, the male vs. female samples are interspersed and there is no clear separation of samples based on sex. The heat map does not have clear clusters gene expression levels. Chromosome 19 is the sex-determination chromsome in stickleback, so it makes sense that we observe clustering of gene expression levels when subsetting for groupXIX. Alternatively, the random subset returns an array of random expression levels among the random genes that are not necessarily associated with sex, and therefore we do not see the same level of clustering as in groupXIX subset. 
 
 
 
