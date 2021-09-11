@@ -236,8 +236,8 @@ preg = as.character(targets$PregStat)
 fig = ordiplot(
   pipe.mds0$points[,2:3],
   main="Brood Pouches in Transcript Space",
-  ylab="nMDS Dimension 2",
-  xlab="nMDS Dimension 3",
+  ylab="nMDS Dimension 3",
+  xlab="nMDS Dimension 2S",
   font.lab=2,
   font.axis=2,
   cex.axis=.7,
